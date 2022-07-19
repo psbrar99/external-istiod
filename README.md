@@ -63,7 +63,7 @@ kubectl apply -f external-istiod-gw.yam
 
 
 
-4. Deploy httpbin and sleep application
+6. Deploy httpbin and sleep application
 
 ```sh
 kubectl config use-context $CTX_REMOTE_CLUSTER
