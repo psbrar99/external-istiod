@@ -1,0 +1,56 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: external-istiod-gw
+  namespace: external-istiod
+spec:
+  selector:
+    istio: ingressgateway
+    app: istio-ingressgateway
+  servers:
+  - port:
+      number: 15012
+      protocol: tls
+      name: https-XDS
+    tls:
+      mode: PASSTHROUGH
+    hosts:
+    - "*"
+  - port:
+      number: 15017
+      protocol: tls
+      name: https-WEBHOOK
+    tls:
+      mode: PASSTHROUGH
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+   name: external-istiod-vs
+   namespace: external-istiod
+spec:
+    hosts:
+    - "*"
+    gateways:
+    - external-istiod-gw
+    tls:
+    - match:
+      - port: 15012
+        sniHosts:
+        - "*"
+      route:
+      - destination:
+          host: istiod.external-istiod.svc.cluster.local
+          port:
+            number: 15012
+    - match:
+      - port: 15017
+        sniHosts:
+        - "*"
+      route:
+      - destination:
+          host: istiod.external-istiod.svc.cluster.local
+          port:
+            number: 443

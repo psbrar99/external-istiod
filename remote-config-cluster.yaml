@@ -1,0 +1,16 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: external-istiod
+spec:
+  profile: external
+  values:
+    global:
+      istioNamespace: external-istiod
+      configCluster: true
+    pilot:
+      configMap: true
+    istiodRemote:
+      injectionURL: https://istiod.cx.tetrate.info:15017/inject/:ENV:cluster=remote:ENV:net=network1
+    base:
+      validationURL: https://istiod.cx.tetrate.info:15017/validate
