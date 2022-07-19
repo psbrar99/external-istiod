@@ -58,7 +58,7 @@ kubectl apply -f -
 # Configure external-istiod.yaml with EXTERNAL_ISTIOD_ADDR variable.
 istioctl manifest generate -f external-istiod.yaml | kubectl apply -f -
 kubectl get po -n external-istiod 
-kubectl apply -f external-istiod-gw.yam
+kubectl apply -f istiodgw.yaml
 ```
 
 
